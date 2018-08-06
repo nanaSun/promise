@@ -72,7 +72,7 @@ getData(url1).then(function(res){
 
 所以说，所有的promise都有一个结果状态——实现（fulfilled）或者拒绝（rejected），而结果出来之前的状态就是等待（pending）。
 
-
+[p1.js](https://github.com/nanaSun/promise/blob/master/p1.js)
 ```
 //p1.js
 function Promise(executor){
@@ -107,6 +107,7 @@ console.log(Iagree.state,Idisagree.state,noResult.state)
 
 不过我只知道一个状态有何用？我还要进行下一步哒！我们需要一个```then```，用于进行下一步的操作。
 
+[p2.js](https://github.com/nanaSun/promise/blob/master/p2.js)
 ```
 //p2.js
 Promise.prototype.then=function(onFulfilled, onRejected){
@@ -136,7 +137,7 @@ Iagree.then((data)=>{
 
 这个时候我们需要把回调函数丢到resolve或者reject中，但是如果我们的后续方法很多呢？then好多次怎么办！将回调丢到的队列中，到时候Foreach一下逐个执行。
 
-
+[p3.js](https://github.com/nanaSun/promise/blob/master/p3.js)
 ```
 //p3.js
 function Promise(executor){
@@ -204,6 +205,8 @@ Iagree.then((data)=>{
 
 如果想要这样写，那么上一步的```then```必须返回一个promise对象才可以，不然哪里变出一个```then```方法。因此我们需要在```then```中```new```一个新的promise，用于下一个链式调用的```then```。
 
+
+[p4.js](https://github.com/nanaSun/promise/blob/master/p4.js)
 ```
 //p4.js
 function resolvePromise(promise,x,resolve,reject){
@@ -297,6 +300,7 @@ Iagree.then((data)=>{
 * 接着导出promise，`module.exports=Promise`。
 * 最后运行一波`promises-aplus-tests.cmd 你的promise.js`，然后一行行地检查你的代码，等到全部变绿（passing），恭喜你成功攻克promise！！
 
+[p5.js](https://github.com/nanaSun/promise/blob/master/p5.js)
 ```
 //参考p5.js
 ```
