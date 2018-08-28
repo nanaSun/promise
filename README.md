@@ -58,7 +58,7 @@ getData(url1).then(function(res){
 
 ```
 
-确实。简介了不少，至少不会被里三层外三层的括号弄晕。
+确实。简洁了不少，至少不会被里三层外三层的括号弄晕。
 
 但是当初我听到promise的时候，我内心是拒绝的。虽然内心拒绝，但是该来的还是要来的，该学的还是要学的，毕竟时代在进步，与时俱进还是很必要的！那么这个promise是怎么实现的呢？？？
 
@@ -295,7 +295,7 @@ Iagree.then((data)=>{
 总结几点
 
 * 该`try{}catch(){}`的地方都标记上，宁可错杀不放过。
-* onFulfilled和onRejected的方法放入`setTimeout`之中，为了让他们变成“微任务（micro-task）”。（应该是出于性能的考虑，之后再研究。）
+* onFulfilled和onRejected的方法放入`setTimeout`之中，为了让他们变成“宏任务（macro-task）”。（应该是出于性能的考虑，之后再研究。）
 * 然后加一个`Promise.defer = Promise.deferred = function(){}`方法，防止篡改。
 * 接着导出promise，`module.exports=Promise`。
 * 最后运行一波`promises-aplus-tests.cmd 你的promise.js`，然后一行行地检查你的代码，等到全部变绿（passing），恭喜你成功攻克promise！！
