@@ -48,7 +48,17 @@ function * g(){
 let it= g()
 console.log(it.next())
 
-
+function * gy(){
+    console.log("zero")
+    let fisrt=yield "first"
+    console.log("fisrt",fisrt)
+    let second=yield "second"
+    console.log("second",second)
+}
+let ity= gy()
+ity.next()
+ity.next("second")
+ity.next("third")
 
 
 //可迭代对象。

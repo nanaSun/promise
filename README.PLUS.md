@@ -1,11 +1,10 @@
-本文主要讲述迭代器（iterator）和生成器（generator）之间的联系和各自的用法，以及如何优雅地处理异步，并且可以与`aysnc/await`混搭使用。
+本文主要讲述迭代器（iterator）和生成器`*/yield`之间的联系和各自的用法，以及生成器的高配版本`aysnc/await`的使用。
 
 大纲：
 
 * 迭代器（iterator）
-    * 迭代器（iterator）
-    * 迭代对象
-* 生成器（generator）
+* 生成器 `*/yield`
+* 异步版生成器 `aysnc/await`
 
 
 ## 迭代器（iterator）
@@ -136,3 +135,54 @@ let ity= gy()
 第三次执行`ity.next("third")`，只打印了`second third`
 
 由此可见每次的next都止步于`yield`，就不再执行下去了。`yield`每次返回的都是当前`ity.next(value)`的`value`值。
+
+
+## aysnc/await
+
+我们来看看对于Promise这个对象的迭代器，我们该怎么处理。也就是每个迭代器都是异步的。
+
+```
+function setTime(value,id){
+    return new Promise((r,j)=>setTimeout(() => {
+        console.log(value)
+        r(id)
+    }, 10))
+}
+function *a(){
+    let r1 = yield setTime("first",1)
+    console.log(r1)
+    let r2 =yield setTime("second",2)
+    console.log(r2)
+    let r3 =yield setTime("third",3)
+    console.log(r3)
+}
+let k=a();
+new Promise((resolve,reject)=>{
+    function next(data){
+        let {value,done}=k.next(data)
+        //k.next()返回一个promise,因此可以then
+        if(!done){
+            value.then((data)=>{
+                console.log(data)
+                next(data)
+            })
+        }
+    }
+    next();
+})
+```
+因为每个都是异步的，所以需要我们二次处理，这个时候`aysnc/await`就可以出场了。只需要把*/yield无缝改成aysnc/await即可。
+```
+async function a() {
+    let r1 = await setTime("first",1)
+    console.log(r1)
+    let r2 = await setTime("second",2)
+    console.log(r2)
+    let r3 = await setTime("third",3)
+    console.log(r3)
+}
+a()
+```
+
+
+
